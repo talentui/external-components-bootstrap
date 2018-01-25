@@ -1,3 +1,5 @@
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 // import fetch from 'dva/fetch';
 // import { notification } from 'antd';
 
@@ -5,11 +7,11 @@ function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
-//   notification.error({
-//     message: `请求错误 ${response.status}: ${response.url}`,
-//     description: response.statusText,
-//   });
-  const error = new Error(response.statusText);
+  //   notification.error({
+  //     message: `请求错误 ${response.status}: ${response.url}`,
+  //     description: response.statusText,
+  //   });
+  var error = new Error(response.statusText);
   error.response = response;
   throw error;
 }
@@ -22,35 +24,33 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  const defaultOptions = {
-    credentials: 'include',
+  var defaultOptions = {
+    credentials: 'include'
   };
-  const newOptions = { ...defaultOptions, ...options };
+  var newOptions = _extends({}, defaultOptions, options);
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
-    newOptions.headers = {
+    newOptions.headers = _extends({
       Accept: 'application/json',
-      'Content-Type': 'application/json; charset=utf-8',
-      ...newOptions.headers,
-    };
+      'Content-Type': 'application/json; charset=utf-8'
+    }, newOptions.headers);
     newOptions.body = JSON.stringify(newOptions.body);
   }
 
-  return fetch(url, newOptions)
-    .then(checkStatus)
-    .then(response => response.json())
-    .catch((error) => {
-      if (error.code) {
-        // notification.error({
-        //   message: error.name,
-        //   description: error.message,
-        // });
-      }
-      if ('stack' in error && 'message' in error) {
-        // notification.error({
-        //   message: `请求错误: ${url}`,
-        //   description: error.message,
-        // });
-      }
-      return error;
-    });
+  return fetch(url, newOptions).then(checkStatus).then(function (response) {
+    return response.json();
+  }).catch(function (error) {
+    if (error.code) {
+      // notification.error({
+      //   message: error.name,
+      //   description: error.message,
+      // });
+    }
+    if ('stack' in error && 'message' in error) {
+      // notification.error({
+      //   message: `请求错误: ${url}`,
+      //   description: error.message,
+      // });
+    }
+    return error;
+  });
 }

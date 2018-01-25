@@ -4,18 +4,16 @@
  * 
  * **/
 import { v1 } from 'uuid';
-import ElementCollection from '&/index'
-let componentsKeys = Object.keys(ElementCollection);
-export default [
-  {
-    name: "组件分组1",
-    id: v1(),
-    components: componentsKeys.map(item =>  {
-      return {
-        name:item,
-        title:item,
-        id:v1()
-      }
-    })
-  }
-];
+import ElementCollection from '&/index';
+var componentsKeys = Object.keys(ElementCollection);
+export default [{
+  name: "组件分组1",
+  id: v1(),
+  components: componentsKeys.map(function (item) {
+    return {
+      name: item,
+      title: item,
+      id: v1()
+    };
+  })
+}];
