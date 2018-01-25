@@ -3,5 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "lihe3 <lihe3@corp.beisencorp.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf src && babel src -d src",
+    "prepublish": "yarn run build"
+  }
 }
