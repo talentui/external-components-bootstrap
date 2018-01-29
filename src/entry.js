@@ -8,6 +8,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 import BSGlobal from './BSGlobal';
 import '@talentui/page-templates/dist/main.css';
+import "font-awesome/css/font-awesome.min.css";
+import '@beisen/pb-svg/pb-svg.css';
+import '@beisen/pb-svg/icomoon/style.css';
+import '@beisen/nade-style/style.scss';
+import '@beisen/up-common-css/src/scss/all.scss';
+
 var staticPath = BSGlobal.staticPath;
 if (staticPath !== "/dist/") {
     __webpack_public_path__ = staticPath;
