@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const appRoot = fs.realpathSync(process.cwd());
 module.exports = require("@talentui/webpack-config")({
-    entry: "@talentui/external-component-template-core/src/app.js",
+    entry: "_/src/app.js",
     port: 3000,
     hostPage: path.resolve(fs.realpathSync(process.cwd()), "index.html"),
     dllList: ["@talentui/dll-react"],
