@@ -30,7 +30,7 @@ export var getCurPageTemplate = function getCurPageTemplate(_ref) {
         parts = _page$pageSettings.parts;
 
     if (templates[template]) return templates[template](PARTS_MAP[parts]);
-    return templates["HomePage"](PARTS_MAP[parts]); //返回一个默认的
+    return templates["grid"](PARTS_MAP[parts]); //返回一个默认的
 };
 //得到本地的组件
 export var mergeComponents = function mergeComponents() {
