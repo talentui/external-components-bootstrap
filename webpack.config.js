@@ -10,6 +10,6 @@ module.exports = require("@talentui/webpack-config")({
     language: "mixed", //可选，default 'js' 可选 'ts', 'mixed',
     alias: {
         "&": path.resolve(appRoot, "src"),
-        _: "@talentui/@talentui/external-component-bootstrap"
+        _: "@talentui/external-components-bootstrap"
     }
 });
