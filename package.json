@@ -1,6 +1,6 @@
 {
   "name": "@talentui/external-components-bootstrap",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "index.js",
   "author": "lihe3 <lihe3@corp.beisencorp.com>",
   "license": "MIT",
@@ -16,5 +16,11 @@
     "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1"
+  },
+  "dependencies": {
+    "@beisen/nade-style": "^0.1.70",
+    "@beisen/pb-svg": "^1.4.37",
+    "@beisen/up-common-css": "^1.0.11",
+    "font-awesome": "^4.7.0"
   }
 }
