@@ -13,7 +13,7 @@ import '@beisen/pb-svg/pb-svg.css';
 import '@beisen/pb-svg/icomoon/style.css';
 import '@beisen/nade-style/style.scss';
 import '@beisen/up-common-css/src/scss/all.scss';
-
+import './index.scss';
 var staticPath = BSGlobal.staticPath;
 if (staticPath !== "/dist/") {
     __webpack_public_path__ = staticPath;
@@ -41,7 +41,7 @@ var App = function (_React$Component) {
         value: function render() {
             return React.createElement(
                 'div',
-                null,
+                { className: 'containers' },
                 React.createElement(
                     'div',
                     { className: 'content-wrapper' },
