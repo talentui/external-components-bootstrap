@@ -21,6 +21,7 @@
     "@beisen/nade-style": "^0.1.70",
     "@beisen/pb-svg": "^1.4.37",
     "@beisen/up-common-css": "^1.0.11",
+    "@talentui/umd-module-webpack-config": "^1.1.2",
     "font-awesome": "^4.7.0"
   }
 }

@@ -1,6 +1,5 @@
 const path = require("path");
-const fs = require("fs");
-const appRoot = fs.realpathSync(process.cwd());
+const appRoot = process.cwd();
 module.exports = require("@talentui/webpack-config")({
     entry: "_/src/app.js",
     port: 3000,

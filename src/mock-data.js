@@ -17,7 +17,7 @@ export var componentList = Object.assign({}, emptyResp, {
             return {
                 name: item,
                 title: item,
-                id: Date.now()
+                id: item
             };
         })
     }]
