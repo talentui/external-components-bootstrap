@@ -8,4 +8,3 @@ module.exports = require("@talentui/umd-module-webpack-config")({
         "&": path.resolve(appRoot, "./src")
     }
 });
-git
