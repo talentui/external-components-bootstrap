@@ -1,3 +1,8 @@
+/**
+ * 解决 babel: ReferenceError: _regeneratorRuntime is not defined
+ */
+require("babel-core/register");
+require("babel-polyfill");
 /**在这里输出所有需要打包的组件**/
 import eLementCollections from "&/index.js";
 import componentRegistry from '@talentui/external-component-registry';
