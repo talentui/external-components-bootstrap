@@ -1,20 +1,10 @@
 /**在这里输出所有需要打包的组件**/
 import eLementCollections from "&/index.js";
-import prefixAdder from "./utils/prefix";
-import componentRegistry from "./component-registry";
-
+import componentRegistry from '@talentui/external-component-registry';
 __webpack_public_path__ = "//stnew03.beisen.com/ux/upaas/" + process.env.packageName + "/release/dist/"; //全局变量名
 
-if (!window.componentRegistry) {
-    Object.defineProperty(window, "componentRegistry", {
-        value: componentRegistry(),
-        writable: false,
-        enumerable: false,
-        configurable: false
-    });
-}
-window.componentRegistry.push({
-    eLementCollections: prefixAdder(eLementCollections)
+componentRegistry.push({
+    eLementCollections: eLementCollections
 });
 
 // export default {
