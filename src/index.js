@@ -7,12 +7,8 @@ require("babel-polyfill");
 import eLementCollections from "&/index.js";
 import prefixAdder from './utils/prefix';
 import componentRegistry from '@talentui/external-component-registry';
-__webpack_public_path__ = "//stnew03.beisen.com/ux/upaas/" + process.env.packageName + "/release/dist/"; //全局变量名
+__webpack_public_path__ = "//stnew03.beisen.com/ux/upaas/" + process.env.packageName + "/release/dist/";
 
 componentRegistry.push({
     eLementCollections: prefixAdder(eLementCollections)
 });
-
-// export default {
-//     eLementCollections: prefixAdder(eLementCollections) //所有的组件
-// };
