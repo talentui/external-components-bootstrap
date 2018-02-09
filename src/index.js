@@ -3,12 +3,14 @@
  */
 require("babel-core/register");
 require("babel-polyfill");
-/**在这里输出所有需要打包的组件**/
-import eLementCollections from "&/index.js";
-import prefixAdder from './utils/prefix';
-import componentRegistry from '@talentui/external-component-registry';
-__webpack_public_path__ = "//stnew03.beisen.com/ux/upaas/" + process.env.packageName + "/release/dist/";
 
-componentRegistry.push({
-    eLementCollections: prefixAdder(eLementCollections)
-});
+import eLementCollections from "&/index.js";
+import componentRegistry from "@talentui/external-component-registry";
+/**
+ * webpack 按需加载，设置public path
+*/
+__webpack_public_path__ = "//stnew03.beisen.com/ux/upaas/" + process.env.packageName + "/release/dist/";
+/**
+ * 组件注册
+*/
+componentRegistry.set(process.env.appId, eLementCollections);
