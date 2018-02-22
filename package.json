@@ -4,9 +4,6 @@
   "main": "src/index.js",
   "author": "lihe3 <lihe3@corp.beisencorp.com>",
   "license": "MIT",
-  "bin": {
-    "start-project":"./bin/start.sh"
-  },
   "scripts": {
     "build": "rm -rf src && babel lib -d src",
     "prepublish": "yarn run build"
