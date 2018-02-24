@@ -1,11 +1,11 @@
 {
   "name": "@talentui/external-components-bootstrap",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "main": "src/index.js",
   "author": "lihe3 <lihe3@corp.beisencorp.com>",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf src && babel lib -d src",
+    "build": "rm -rf src && babel lib -d src --copy-files",
     "prepublish": "yarn run build"
   },
   "devDependencies": {
