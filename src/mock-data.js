@@ -13,6 +13,7 @@ export var componentList = Object.assign({}, emptyResp, {
         name: "TestDemo",
         title: "测试应用",
         id: "1231231",
+        appId: process.env.appId,
         components: Object.keys(components).map(function (item) {
             return {
                 name: item,
