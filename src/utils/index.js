@@ -1,3 +1,5 @@
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 import { PARTS_MAP } from "../constants";
 import innerTemplates from "@talentui/page-templates";
 import components from '&/index';
@@ -34,7 +36,7 @@ export var getCurPageTemplate = function getCurPageTemplate(_ref) {
 };
 //得到本地的组件
 export var mergeComponents = function mergeComponents() {
-    return components;
+    return _defineProperty({}, process.env.appId, components);
 };
 //遍历组件列表，将普通iframe组件使用本地渲染
 export var componentTransfer = function componentTransfer(apps) {
