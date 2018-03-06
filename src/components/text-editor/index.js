@@ -6,50 +6,29 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-import React, { Component } from "react";
-import { TubState, Viewer } from "@beisen/grid-page-builder";
-import { getCurPageTemplate, mergeComponents, getComponentClass } from "../../utils/index";
+import React, { Component } from 'react';
 
-var Preview = function (_Component) {
-    _inherits(Preview, _Component);
+var TextEditor = function (_Component) {
+    _inherits(TextEditor, _Component);
 
-    function Preview(props, contents) {
-        _classCallCheck(this, Preview);
+    function TextEditor() {
+        _classCallCheck(this, TextEditor);
 
-        var _this = _possibleConstructorReturn(this, (Preview.__proto__ || Object.getPrototypeOf(Preview)).call(this, props));
-
-        _this.handleChange = function (tubState) {
-            _this.setState({ tubState: tubState });
-        };
-
-        var data = JSON.parse(window.localStorage._tubState);
-
-        var _mergeComponents = mergeComponents(),
-            eLementCollections = _mergeComponents.eLementCollections;
-
-        _this.eLementCollections = eLementCollections;
-        _this.curTemplate = getCurPageTemplate({
-            page: data
-        });
-        _this.state = {
-            tubState: TubState.create(data)
-        };
-        return _this;
+        return _possibleConstructorReturn(this, (TextEditor.__proto__ || Object.getPrototypeOf(TextEditor)).apply(this, arguments));
     }
 
-    _createClass(Preview, [{
-        key: "render",
+    _createClass(TextEditor, [{
+        key: 'render',
         value: function render() {
-            return React.createElement(Viewer, {
-                tubState: this.state.tubState,
-                template: this.curTemplate,
-                onChange: this.handleChange,
-                getComponentClass: getComponentClass
-            });
+            return React.createElement(
+                'div',
+                null,
+                'Component Text Editorssss'
+            );
         }
     }]);
 
-    return Preview;
+    return TextEditor;
 }(Component);
 
-export default Preview;
+export default TextEditor;

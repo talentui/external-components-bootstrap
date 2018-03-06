@@ -6,50 +6,30 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-import React, { Component } from "react";
-import { TubState, Viewer } from "@beisen/grid-page-builder";
-import { getCurPageTemplate, mergeComponents, getComponentClass } from "../../utils/index";
+import React, { Component, PropTypes } from "react";
+//支持grid分数的配置
+export default (function () {
+    var _class, _temp;
 
-var Preview = function (_Component) {
-    _inherits(Preview, _Component);
+    var grid = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
+    return _temp = _class = function (_Component) {
+        _inherits(FreeLayout, _Component);
 
-    function Preview(props, contents) {
-        _classCallCheck(this, Preview);
+        function FreeLayout() {
+            _classCallCheck(this, FreeLayout);
 
-        var _this = _possibleConstructorReturn(this, (Preview.__proto__ || Object.getPrototypeOf(Preview)).call(this, props));
-
-        _this.handleChange = function (tubState) {
-            _this.setState({ tubState: tubState });
-        };
-
-        var data = JSON.parse(window.localStorage._tubState);
-
-        var _mergeComponents = mergeComponents(),
-            eLementCollections = _mergeComponents.eLementCollections;
-
-        _this.eLementCollections = eLementCollections;
-        _this.curTemplate = getCurPageTemplate({
-            page: data
-        });
-        _this.state = {
-            tubState: TubState.create(data)
-        };
-        return _this;
-    }
-
-    _createClass(Preview, [{
-        key: "render",
-        value: function render() {
-            return React.createElement(Viewer, {
-                tubState: this.state.tubState,
-                template: this.curTemplate,
-                onChange: this.handleChange,
-                getComponentClass: getComponentClass
-            });
+            return _possibleConstructorReturn(this, (FreeLayout.__proto__ || Object.getPrototypeOf(FreeLayout)).apply(this, arguments));
         }
-    }]);
 
-    return Preview;
-}(Component);
+        _createClass(FreeLayout, [{
+            key: "render",
+            value: function render() {
+                var connectLayoutItem = this.props.connectLayoutItem;
 
-export default Preview;
+                return connectLayoutItem("layout1", grid)(React.createElement("div", { className: "pg-tmpl-defaul" }));
+            }
+        }]);
+
+        return FreeLayout;
+    }(Component), _class.defaultTemplateProps = ["__background__", "__toTop__"], _temp;
+});

@@ -13,7 +13,8 @@ import React, { Component } from "react";
 import Workspace, { TubState } from "@beisen/grid-page-builder";
 import { v1 } from "uuid";
 import * as services from "../../service";
-import { getQueryString, getCurPageTemplate, mergeComponents } from "../../utils/index";
+import { getQueryString, getCurPageTemplate, mergeComponents, getComponentClass } from "../../utils/index";
+import componentRegistry from "@talentui/external-component-registry";
 import { PARTS_MAP, BORDR_STYLE_MAP, GRID_MARGIN_MAP } from "../../constants";
 
 var App = function (_Component) {
@@ -22,37 +23,19 @@ var App = function (_Component) {
     function App(props) {
         _classCallCheck(this, App);
 
-        // let components = mergeComponents();
-        // this.eLementCollections = eLementCollections;
-        // this.propsCollections = propsCollections;
-        // this.templates = templates; //所有的模版集合
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-        _this.handleChange = function (tubState) {
-            _this.setState({ tubState: tubState });
-        };
+        _initialiseProps.call(_this);
 
-        _this.handleSave = function (tubState) {
-            services.savePage({ tubState: tubState }).then(function (resp) {
-                if (resp.Code === 200) {
-                    _this.state.tubState.setSavedState();
-                }
-            });
-        };
-
-        _this.getTempAvaliableComponents = function () {
-            services.getComponentList().then(function (res) {
-                _this.availableComponents = res.OperationObject;
-                _this.setState({
-                    fetchingComp: false
-                });
-            });
-        };
+        var _mergeComponents = mergeComponents(),
+            eLementCollections = _mergeComponents.eLementCollections;
 
         _this.curTemplate = null; //当前页面所用的模版
+        componentRegistry.setHook(_this.onComponentLoaded); //注册回调函数
         _this.state = {
             fetchingPage: true,
             fetchingComp: true,
+            eLementCollections: eLementCollections,
             tubState: TubState.create()
         };
         return _this;
@@ -78,16 +61,16 @@ var App = function (_Component) {
                     OperationObject = resp.OperationObject;
 
                 if (Code === 200) {
-                    document.title = OperationObject.pageSettings.title; //页面title
+                    document.title = OperationObject.pageProperty.title; //页面title
                     _this2.curTemplate = getCurPageTemplate({
                         page: resp.OperationObject
                     });
-                    var _OperationObject$page = OperationObject.pageSettings,
+                    var _OperationObject$page = OperationObject.pageProperty,
                         componentFrame = _OperationObject$page.componentFrame,
                         componentSpacing = _OperationObject$page.componentSpacing;
 
-                    _this2.componentSpacing = componentSpacing;
-                    _this2.componentFrame = componentFrame;
+                    _this2.componentSpacing = componentSpacing; //组件间距
+                    _this2.componentFrame = componentFrame; //组件边框
                     _this2.setState({
                         fetchingPage: false,
                         tubState: _this2.state.tubState.setDefault(OperationObject)
@@ -97,22 +80,24 @@ var App = function (_Component) {
         }
         //数据是从后端获取的 组件列表
 
+        //扩充组件元数据
+
     }, {
         key: "render",
         value: function render() {
             var _state = this.state,
                 fetchingComp = _state.fetchingComp,
                 fetchingPage = _state.fetchingPage,
-                tubState = _state.tubState;
+                tubState = _state.tubState,
+                eLementCollections = _state.eLementCollections,
+                _state$propsCollectio = _state.propsCollections,
+                propsCollections = _state$propsCollectio === undefined ? {} : _state$propsCollectio;
 
             if (fetchingComp || fetchingPage) return null;
-            var eLementCollections = this.eLementCollections,
-                propsCollections = this.propsCollections,
-                pageTemplate = this.pageTemplate,
+            var pageTemplate = this.pageTemplate,
                 availableComponents = this.availableComponents,
                 curTemplate = this.curTemplate;
 
-            var a = mergeComponents();
             return React.createElement(Workspace, {
                 defaultProps: {
                     component: {
@@ -123,18 +108,60 @@ var App = function (_Component) {
                     }
                 },
                 tubState: tubState,
-                components: mergeComponents()
-                // propsComponents={propsCollections}
-                , availableComponents: availableComponents,
+                propsComponents: propsCollections,
+                availableComponents: availableComponents,
                 onSave: this.handleSave,
                 onChange: this.handleChange,
                 template: curTemplate,
-                previewUrl: "?#preview"
+                previewUrl: "?#preview",
+                getComponentClass: getComponentClass,
+                onCreateComponent: this.onCreateComponent
             });
         }
     }]);
 
     return App;
 }(Component);
+
+var _initialiseProps = function _initialiseProps() {
+    var _this3 = this;
+
+    this.onComponentLoaded = function (obj) {
+        var _mergeComponents2 = mergeComponents(),
+            eLementCollections = _mergeComponents2.eLementCollections;
+
+        _this3.setState({
+            eLementCollections: eLementCollections
+        });
+    };
+
+    this.handleChange = function (tubState) {
+        _this3.setState({ tubState: tubState });
+    };
+
+    this.handleSave = function (tubState) {
+        // services.savePage(tubState).then(resp => {
+        //     if (resp.Code === 200) {
+        //         this.state.tubState.setSavedState();
+        //     }
+        // });
+    };
+
+    this.getTempAvaliableComponents = function () {
+        services.getComponentList().then(function (res) {
+            _this3.availableComponents = res.OperationObject;
+            _this3.setState({
+                fetchingComp: false
+            });
+        });
+    };
+
+    this.onCreateComponent = function (component, data) {
+        return Object.assign(component, {
+            displayMode: data.displayMode,
+            url: data.url
+        });
+    };
+};
 
 export default App;

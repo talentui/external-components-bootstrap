@@ -8,52 +8,40 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 //pageBuilder 运行态页面
 /**
- * paeg-builder编辑态页面
+ * paeg-builder预览态页面
  */
 import React, { Component } from "react";
 import Workspace, { TubState, Viewer } from "@beisen/grid-page-builder";
+import defaultTemplate from "../../components/template";
 import * as services from "../../service";
-import { getCurPageTemplate, mergeComponents } from "../../utils/index";
+import { getCurPageTemplate, mergeComponents, getComponentClass } from "../../utils/index";
 import { PARTS_MAP, BORDR_STYLE_MAP, GRID_MARGIN_MAP } from "../../constants";
+import componentRegistry from "@talentui/external-component-registry";
 
-var App = function (_Component) {
-    _inherits(App, _Component);
+var View = function (_Component) {
+    _inherits(View, _Component);
 
-    function App(props) {
-        _classCallCheck(this, App);
+    function View(props) {
+        _classCallCheck(this, View);
 
-        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).call(this, props));
 
-        _this.handleChange = function (tubState) {
-            _this.setState({ tubState: tubState });
-        };
-
-        _this.getTempAvaliableComponents = function () {
-            services.getComponentList().then(function (res) {
-                _this.setState({
-                    availableComponents: res.OperationObject,
-                    fetchingComp: false
-                });
-            });
-        };
+        _initialiseProps.call(_this);
 
         var _mergeComponents = mergeComponents(),
-            eLementCollections = _mergeComponents.eLementCollections,
-            propsCollections = _mergeComponents.propsCollections,
-            templates = _mergeComponents.templates;
+            eLementCollections = _mergeComponents.eLementCollections;
 
-        _this.eLementCollections = eLementCollections;
-        _this.propsCollections = propsCollections;
-        _this.templates = templates; //所有的模版集合
         _this.curTemplate = null; //当前页面所用的模版
+        componentRegistry.setHook(_this.onComponentLoaded); //注册回调函数
         _this.state = {
             fetchingPage: true,
+            eLementCollections: eLementCollections,
             tubState: TubState.create()
         };
         return _this;
     }
 
-    _createClass(App, [{
+    _createClass(View, [{
         key: "componentDidMount",
         value: function componentDidMount() {
             this.fetchPage();
@@ -72,7 +60,7 @@ var App = function (_Component) {
                     _this2.curTemplate = getCurPageTemplate({
                         page: resp.OperationObject
                     });
-                    document.title = resp.OperationObject.pageSettings.title; //页面title
+                    document.title = resp.OperationObject.pageProperty.title; //页面title
                     _this2.setState({
                         fetchingPage: false,
                         tubState: _this2.state.tubState.setContent(resp.OperationObject)
@@ -88,20 +76,47 @@ var App = function (_Component) {
                 fetchingPage = _state.fetchingPage;
 
             if (fetchingComp || fetchingPage) return null;
-            var tubState = this.state.tubState;
-            var eLementCollections = this.eLementCollections,
-                curTemplate = this.curTemplate;
+            var _state2 = this.state,
+                tubState = _state2.tubState,
+                eLementCollections = _state2.eLementCollections;
+            var curTemplate = this.curTemplate;
 
             return React.createElement(Viewer, {
                 tubState: tubState,
-                components: eLementCollections,
                 onChange: this.handleChange,
-                template: curTemplate
+                template: curTemplate,
+                getComponentClass: getComponentClass
             });
         }
     }]);
 
-    return App;
+    return View;
 }(Component);
 
-export default App;
+var _initialiseProps = function _initialiseProps() {
+    var _this3 = this;
+
+    this.onComponentLoaded = function (obj) {
+        var _mergeComponents2 = mergeComponents(),
+            eLementCollections = _mergeComponents2.eLementCollections;
+
+        _this3.setState({
+            eLementCollections: eLementCollections
+        });
+    };
+
+    this.handleChange = function (tubState) {
+        _this3.setState({ tubState: tubState });
+    };
+
+    this.getTempAvaliableComponents = function () {
+        services.getComponentList().then(function (res) {
+            _this3.setState({
+                availableComponents: res.OperationObject,
+                fetchingComp: false
+            });
+        });
+    };
+};
+
+export default View;

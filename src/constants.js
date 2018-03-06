@@ -23,3 +23,4 @@ export var GRID_MARGIN_MAP = {
     1: 15,
     2: 20
 };
+export var INNER_COMMON_IFRAME_KEY = '__&&_CommonIframe_&&__';
