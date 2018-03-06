@@ -1,0 +1,25 @@
+.common-iframe-wrapper {
+    height: 100%;
+    width: 100%;
+}
+.iframe-holder{
+    position: relative;
+    height: 100%;
+    .detail_info{
+        display: none !important;
+    }
+}
+
+.iframe-com-cover{
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: transparent;
+    position: absolute;
+}
+.ub-grid-viewer{
+    .iframe-com-cover{
+        display: none;
+    }
+}
