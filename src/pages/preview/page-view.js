@@ -52,4 +52,4 @@ var Preview = function (_Component) {
     return Preview;
 }(Component);
 
-export default Preview;
+export { Preview as default };

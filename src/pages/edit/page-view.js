@@ -1,5 +1,7 @@
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _class, _class2, _temp, _initialiseProps;
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -16,8 +18,9 @@ import * as services from "../../service";
 import { getQueryString, getCurPageTemplate, mergeComponents, getComponentClass } from "../../utils/index";
 import componentRegistry from "@talentui/external-component-registry";
 import { PARTS_MAP, BORDR_STYLE_MAP, GRID_MARGIN_MAP } from "../../constants";
+import connectPopLayer from './connectPopLayer';
 
-var App = function (_Component) {
+var App = connectPopLayer(_class = (_temp = _class2 = function (_Component) {
     _inherits(App, _Component);
 
     function App(props) {
@@ -44,6 +47,26 @@ var App = function (_Component) {
 
 
     _createClass(App, [{
+        key: "savePatcher",
+
+        //保存之前的扩展逻辑
+        value: function savePatcher(tubState) {
+            var onSave = this.curTemplate.onSave;
+
+            if (onSave) {
+                return new Promise(function (resolve, reject) {
+                    onSave(tubState).then(function (resp) {
+                        resolve(resp);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+                });
+            }
+            return new Promise(function (resolve) {
+                resolve();
+            });
+        }
+    }, {
         key: "componentDidMount",
         value: function componentDidMount() {
             this.fetchPage();
@@ -69,8 +92,6 @@ var App = function (_Component) {
                         componentFrame = _OperationObject$page.componentFrame,
                         componentSpacing = _OperationObject$page.componentSpacing;
 
-                    _this2.componentSpacing = componentSpacing; //组件间距
-                    _this2.componentFrame = componentFrame; //组件边框
                     _this2.setState({
                         fetchingPage: false,
                         tubState: _this2.state.tubState.setDefault(OperationObject)
@@ -100,12 +121,7 @@ var App = function (_Component) {
 
             return React.createElement(Workspace, {
                 defaultProps: {
-                    component: {
-                        __border__: BORDR_STYLE_MAP[this.componentFrame]
-                    },
-                    page: {
-                        __gridItemMargin__: GRID_MARGIN_MAP[this.componentSpacing]
-                    }
+                    component: {}
                 },
                 tubState: tubState,
                 propsComponents: propsCollections,
@@ -121,9 +137,7 @@ var App = function (_Component) {
     }]);
 
     return App;
-}(Component);
-
-var _initialiseProps = function _initialiseProps() {
+}(Component), _initialiseProps = function _initialiseProps() {
     var _this3 = this;
 
     this.onComponentLoaded = function (obj) {
@@ -140,11 +154,17 @@ var _initialiseProps = function _initialiseProps() {
     };
 
     this.handleSave = function (tubState) {
-        // services.savePage(tubState).then(resp => {
-        //     if (resp.Code === 200) {
-        //         this.state.tubState.setSavedState();
-        //     }
-        // });
+        var showPop = _this3.props.showPop;
+
+        _this3.savePatcher(tubState).then(function (resp) {
+            services.savePage(tubState).then(function (resp) {
+                if (resp.Code === 200) {
+                    _this3.state.tubState.setSavedState();
+                }
+            });
+        }).catch(function (err) {
+            showPop && showPop(err);
+        });
     };
 
     this.getTempAvaliableComponents = function () {
@@ -159,9 +179,11 @@ var _initialiseProps = function _initialiseProps() {
     this.onCreateComponent = function (component, data) {
         return Object.assign(component, {
             displayMode: data.displayMode,
-            url: data.url
+            url: data.url,
+            name: data.name,
+            title: data.title
         });
     };
-};
+}, _temp)) || _class;
 
-export default App;
+export { App as default };

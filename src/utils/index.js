@@ -3,17 +3,15 @@ import { PARTS_MAP, INNER_COMMON_IFRAME_KEY, COMMON_OCEAN_COMPONENT, OCEAN_APPID
 import innerTemplates from "@talentui/page-templates";
 import componentRegistry from "@talentui/external-component-registry";
 import React from "react";
-import EmptyComponent from '../components/emptyComponent/index.js';
+import EmptyComponent from "../components/emptyComponent/index.js";
 import CommonIframe from "../components/common-iframe";
-import components from "&/index";
-
 export function getQueryString(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
         results = regex.exec(url);
     if (!results) return null;
-    if (!results[2]) return '';
+    if (!results[2]) return "";
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 //依据页面信息获取当前页面所用的页面模版
@@ -35,40 +33,53 @@ export var mergeComponents = function mergeComponents() {
 };
 //获取需要渲染的组件class
 export var getComponentClass = function getComponentClass(data) {
-    // let {eLementCollections} = mergeComponents();
+    var _mergeComponents = mergeComponents(),
+        eLementCollections = _mergeComponents.eLementCollections;
+
     var appId = data.appId,
         cType = data.cType,
         displayMode = data.displayMode,
-        url = data.url;
-    // if(displayMode === 2){
-    //     return CommonIframe(url);
-    // }
-    // if(eLementCollections[appId] && eLementCollections[appId][cType]){
-    //     return eLementCollections[appId][cType];
-    // }
+        url = data.url,
+        editableData = data.editableData;
 
-    var defaultComp = function defaultComp() {
-        return React.createElement(
-            "div",
-            null,
-            "\u672C\u5730\u4E0D\u5B58\u5728\u7684\u7EC4\u4EF6"
-        );
-    };
-    return components[cType] || defaultComp;
+    if (displayMode === 2 || cType === "CommonIframeComponent") {
+        return CommonIframe(url || editableData.url);
+    }
+    if (eLementCollections[appId] && eLementCollections[appId][cType]) {
+        return eLementCollections[appId][cType];
+    }
+    return EmptyComponent;
 };
-//遍历组件列表，将普通iframe组件使用本地渲染
-// export const componentTransfer = apps => {
-//     apps.map(list => {
-//         list.components.map(comp => {
-//             if (comp.displayMode === 2) {
-//                 let rawData = comp.editableData;
-//                 Object.assign(comp, {
-//                     name: INNER_COMMON_IFRAME_KEY,
-//                     data: {
-//                         url: comp.url
-//                     }
-//                 });
-//             }
-//         });
-//     });
-// };
+//保存之前序列化editableData
+export var stringifyEditableData = function stringifyEditableData(data) {
+    var pageData = data.pageSettings.editableData || {};
+    data.pageSettings.editableData = JSON.stringify(pageData);
+    data.componentList.forEach(function (comp) {
+        var editableData = comp.editableData || {};
+        comp.editableData = JSON.stringify(editableData);
+    });
+    return data;
+};
+
+//反序列化editableData
+export var parseEditableData = function parseEditableData(data) {
+    var OperationObject = data.OperationObject;
+    var pageSettings = OperationObject.pageSettings,
+        componentList = OperationObject.componentList;
+
+    var pageData = pageSettings.editableData;
+    if (typeof pageData === "string" && pageData !== '') {
+        pageSettings.editableData = JSON.parse(pageData);
+    }
+    if (pageData == '') {
+        pageSettings.editableData = {};
+    }
+    componentList.forEach(function (comp) {
+        var editableData = comp.editableData;
+
+        if (typeof editableData === 'string') {
+            comp.editableData = JSON.parse(editableData);
+        }
+    });
+    return data;
+};

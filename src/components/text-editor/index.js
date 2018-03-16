@@ -31,4 +31,4 @@ var TextEditor = function (_Component) {
     return TextEditor;
 }(Component);
 
-export default TextEditor;
+export { TextEditor as default };

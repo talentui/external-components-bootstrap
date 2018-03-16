@@ -31,4 +31,4 @@ var EmptyComponent = function (_React$Component) {
     return EmptyComponent;
 }(React.Component);
 
-export default EmptyComponent;
+export { EmptyComponent as default };

@@ -18,7 +18,7 @@ var staticPath = BSGlobal.staticPath;
 if (staticPath !== "/dist/") {
     __webpack_public_path__ = staticPath;
 }
-//你在entry.js中1.1.4 ci
+//你在entry.js中1.1.7 ci
 
 import React, { Component } from "react";
 /**
@@ -55,4 +55,4 @@ var App = function (_React$Component) {
     return App;
 }(React.Component);
 
-export default App;
+export { App as default };

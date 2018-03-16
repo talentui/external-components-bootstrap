@@ -1,5 +1,7 @@
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _class, _temp, _initialiseProps;
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -18,7 +20,7 @@ import { getCurPageTemplate, mergeComponents, getComponentClass } from "../../ut
 import { PARTS_MAP, BORDR_STYLE_MAP, GRID_MARGIN_MAP } from "../../constants";
 import componentRegistry from "@talentui/external-component-registry";
 
-var View = function (_Component) {
+var View = (_temp = _class = function (_Component) {
     _inherits(View, _Component);
 
     function View(props) {
@@ -91,9 +93,7 @@ var View = function (_Component) {
     }]);
 
     return View;
-}(Component);
-
-var _initialiseProps = function _initialiseProps() {
+}(Component), _initialiseProps = function _initialiseProps() {
     var _this3 = this;
 
     this.onComponentLoaded = function (obj) {
@@ -117,6 +117,5 @@ var _initialiseProps = function _initialiseProps() {
             });
         });
     };
-};
-
-export default View;
+}, _temp);
+export { View as default };
