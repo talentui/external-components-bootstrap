@@ -23,7 +23,7 @@ var EmptyComponent = function (_React$Component) {
             return React.createElement(
                 'div',
                 null,
-                '\u7A7A\u7EC4\u4EF6'
+                '\u672C\u5730\u4E0D\u5B58\u5728\u7684\u7EC4\u4EF6'
             );
         }
     }]);

@@ -5,6 +5,7 @@ import componentRegistry from "@talentui/external-component-registry";
 import React from "react";
 import EmptyComponent from "../components/emptyComponent/index.js";
 import CommonIframe from "../components/common-iframe";
+import components from '&/index';
 export function getQueryString(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -33,22 +34,20 @@ export var mergeComponents = function mergeComponents() {
 };
 //获取需要渲染的组件class
 export var getComponentClass = function getComponentClass(data) {
-    var _mergeComponents = mergeComponents(),
-        eLementCollections = _mergeComponents.eLementCollections;
-
+    // let { eLementCollections } = mergeComponents();
     var appId = data.appId,
         cType = data.cType,
         displayMode = data.displayMode,
         url = data.url,
         editableData = data.editableData;
+    // if (displayMode === 2 || cType === "CommonIframeComponent") {
+    //     return CommonIframe(url || editableData.url);
+    // }
+    // if (eLementCollections[appId] && eLementCollections[appId][cType]) {
+    //     return eLementCollections[appId][cType];
+    // }
 
-    if (displayMode === 2 || cType === "CommonIframeComponent") {
-        return CommonIframe(url || editableData.url);
-    }
-    if (eLementCollections[appId] && eLementCollections[appId][cType]) {
-        return eLementCollections[appId][cType];
-    }
-    return EmptyComponent;
+    return components[cType] || EmptyComponent;
 };
 //保存之前序列化editableData
 export var stringifyEditableData = function stringifyEditableData(data) {

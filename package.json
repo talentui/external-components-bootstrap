@@ -12,7 +12,7 @@
     "@talentui/bootstrap-react": "^1.0.1",
     "@talentui/umd-module-webpack-config": "^1.1.2",
     "@talentui/webpack-config": "^1.3.6",
-    "babel-cli": "^6.24.1",
+    "babel-cli": "^6.26.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.5.1",
@@ -23,7 +23,7 @@
     "@beisen/nade-style": "^0.1.70",
     "@beisen/pb-svg": "^1.4.37",
     "@beisen/up-common-css": "^1.0.11",
-    "@talentui/external-component-registry": "^1.0.1",
+    "@talentui/external-component-registry": "^1.0.4",
     "@talentui/external-components-webpack-config": "^1.0.1",
     "font-awesome": "^4.7.0"
   }
