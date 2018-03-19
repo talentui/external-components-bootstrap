@@ -1,6 +1,6 @@
 {
   "name": "@talentui/external-components-bootstrap",
-  "version": "1.4.16",
+  "version": "1.4.17",
   "main": "src/index.js",
   "author": "lihe3 <lihe3@corp.beisencorp.com>",
   "license": "MIT",
