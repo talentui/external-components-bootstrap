@@ -27,3 +27,6 @@
     -webkit-animation: rotate 0.5s ease-in-out infinite;
     will-change: transform;
 }
+body::-webkit-scrollbar {
+    height: 10px;
+}

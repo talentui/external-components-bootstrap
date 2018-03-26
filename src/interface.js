@@ -1,7 +1,6 @@
 /***
  * 接口
  * **/
-import BSGlobal from "./BSGlobal";
 export var uid = BSGlobal.loginUserInfo.Id;
 export var tenantId = BSGlobal.tenantInfo.Id;
 export var isvId = BSGlobal.isv;

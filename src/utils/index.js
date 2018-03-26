@@ -1,10 +1,11 @@
 import defaultTemplate from "../components/template/index";
-import { PARTS_MAP, INNER_COMMON_IFRAME_KEY, COMMON_OCEAN_COMPONENT, OCEAN_APPID } from "../constants";
+import { PARTS_MAP, COMMON_OCEAN_COMPONENT, OCEAN_APPID, CUSTOM_OCEAN_COMPONENT, OCEAN_APP_ID, MAX_NUMBER, MIN_H, MIN_W } from "../constants";
 import innerTemplates from "@talentui/page-templates";
 import componentRegistry from "@talentui/external-component-registry";
 import React from "react";
 import EmptyComponent from "../components/emptyComponent/index.js";
 import CommonIframe from "../components/common-iframe";
+import { uid } from "../interface";
 import components from '&/index';
 export function getQueryString(name, url) {
     if (!url) url = window.location.href;
@@ -34,14 +35,33 @@ export var mergeComponents = function mergeComponents() {
 };
 //获取需要渲染的组件class
 export var getComponentClass = function getComponentClass(data) {
-    // let { eLementCollections } = mergeComponents();
+    var _mergeComponents = mergeComponents(),
+        eLementCollections = _mergeComponents.eLementCollections;
+
     var appId = data.appId,
         cType = data.cType,
         displayMode = data.displayMode,
         url = data.url,
         editableData = data.editableData;
+    // let path = `${
+    //     BSGlobal.titaHost
+    // }/${uid}/widget/iframecomponent?componentName=${cType}&appId=${appId}&to_user_id=${uid}`;
+    // //ocean组件的特殊处理模式
+    // if (appId === OCEAN_APP_ID) {
+    //     if (cType === CUSTOM_OCEAN_COMPONENT) {
+    //         if (
+    //             eLementCollections[OCEAN_APP_ID] &&
+    //             eLementCollections[OCEAN_APP_ID][cType]
+    //         ) {
+    //             return eLementCollections[OCEAN_APP_ID][cType];
+    //         }
+    //         return EmptyComponent;
+    //     }
+    //     return CommonIframe(path);
+    // }
     // if (displayMode === 2 || cType === "CommonIframeComponent") {
-    //     return CommonIframe(url || editableData.url);
+    //     // let path = `/${uid}/${url || editableData.url}`
+    //     return CommonIframe(path);
     // }
     // if (eLementCollections[appId] && eLementCollections[appId][cType]) {
     //     return eLementCollections[appId][cType];
@@ -64,21 +84,37 @@ export var stringifyEditableData = function stringifyEditableData(data) {
 export var parseEditableData = function parseEditableData(data) {
     var OperationObject = data.OperationObject;
     var pageSettings = OperationObject.pageSettings,
-        componentList = OperationObject.componentList;
+        componentList = OperationObject.componentList,
+        sectionList = OperationObject.sectionList;
 
     var pageData = pageSettings.editableData;
-    if (typeof pageData === "string" && pageData !== '') {
+    if (typeof pageData === "string" && pageData !== "") {
         pageSettings.editableData = JSON.parse(pageData);
     }
-    if (pageData == '') {
+    if (pageData == "") {
         pageSettings.editableData = {};
     }
     componentList.forEach(function (comp) {
         var editableData = comp.editableData;
 
-        if (typeof editableData === 'string') {
+        if (typeof editableData === "string") {
             comp.editableData = JSON.parse(editableData);
         }
+    });
+    // 兼容下保存的旧尺寸限制🚫数据
+    sectionList.forEach(function (section) {
+        var _section = section,
+            maxH = _section.maxH,
+            maxW = _section.maxW,
+            minH = _section.minH,
+            minW = _section.minW;
+
+        section = Object.assign(section, {
+            maxH: maxH == null ? MAX_NUMBER : maxH,
+            maxW: maxW == null ? MAX_NUMBER : maxW,
+            minH: minH == null ? MIN_H : minH,
+            minW: minW == null ? MIN_W : minW
+        });
     });
     return data;
 };

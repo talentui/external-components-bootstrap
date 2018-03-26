@@ -18,9 +18,11 @@ import * as services from "../../service";
 import { getQueryString, getCurPageTemplate, mergeComponents, getComponentClass } from "../../utils/index";
 import componentRegistry from "@talentui/external-component-registry";
 import { PARTS_MAP, BORDR_STYLE_MAP, GRID_MARGIN_MAP } from "../../constants";
-import connectPopLayer from './connectPopLayer';
+import connectPopLayer from "./connectPopLayer";
+import loaderCheck from "../../components/loaderCheck";
+import Loading from "@beisen/loading";
 
-var App = connectPopLayer(_class = (_temp = _class2 = function (_Component) {
+var App = loaderCheck(_class = connectPopLayer(_class = (_temp = _class2 = function (_Component) {
     _inherits(App, _Component);
 
     function App(props) {
@@ -113,8 +115,10 @@ var App = connectPopLayer(_class = (_temp = _class2 = function (_Component) {
                 eLementCollections = _state.eLementCollections,
                 _state$propsCollectio = _state.propsCollections,
                 propsCollections = _state$propsCollectio === undefined ? {} : _state$propsCollectio;
+            var _props$loaded = this.props.loaded,
+                loaded = _props$loaded === undefined ? true : _props$loaded; //应用是否都加载进来了
 
-            if (fetchingComp || fetchingPage) return null;
+            if (fetchingComp || fetchingPage || !loaded) return React.createElement(Loading, null);
             var pageTemplate = this.pageTemplate,
                 availableComponents = this.availableComponents,
                 curTemplate = this.curTemplate;
@@ -184,6 +188,6 @@ var App = connectPopLayer(_class = (_temp = _class2 = function (_Component) {
             title: data.title
         });
     };
-}, _temp)) || _class;
+}, _temp)) || _class) || _class;
 
 export { App as default };
