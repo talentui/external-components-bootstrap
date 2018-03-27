@@ -1,3 +1,4 @@
+import components from '&/index';
 var emptyResp = {
     Code: 200,
     HttpCode: 200,
@@ -9,17 +10,16 @@ var emptyResp = {
 export var componentList = Object.assign({}, emptyResp, {
     OperationObject: [{
         name: "TestDemo",
-        title: "测试应用",
+        title: "本地组件",
         id: "1231231",
-        components: [{
-            name: "Button",
-            title: "按钮",
-            id: "123123123"
-        }, {
-            name: "MyChart",
-            title: "图表",
-            id: "111"
-        }]
+        appId: process.env.appId,
+        components: Object.keys(components).map(function (item) {
+            return {
+                name: item,
+                title: components[item].displayTitle || item,
+                id: item
+            };
+        })
     }]
 });
 export var pageData = Object.assign({}, emptyResp, {

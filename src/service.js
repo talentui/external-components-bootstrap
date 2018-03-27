@@ -26,46 +26,46 @@ var mockDecorator = function mockDecorator(fn) {
 export var getComponentList = function getComponentList() {
     var pageId = getQueryString("pageId") || "";
     var pageCode = getQueryString("pageCode");
-    if (mock) {
-        return new Promise(function (resolve) {
-            return resolve(interfaces.getComponentList.mock);
-        });
-    }
+    // if (mock) {
     return new Promise(function (resolve) {
-        request(interfaces.getComponentList.path + "pageId=" + pageId + "&pageCode=" + pageCode, {
-            method: "GET"
-        }).then(function (res) {
-            //数据处理
-            //要是是数字类型的，后端数据存储满足不了，暂时先在这里做兼容
-            res.OperationObject.map(function (item) {
-                item.components.map(function (comp) {
-                    if (comp.gridInitSize) {
-                        var _comp$gridInitSize = comp.gridInitSize,
-                            w = _comp$gridInitSize.w,
-                            h = _comp$gridInitSize.h;
-
-                        comp.gridInitSize.w = parseInt(w);
-                        comp.gridInitSize.h = parseInt(h);
-                    }
-                    if (comp.gridSizeLimit) {
-                        var _comp$gridSizeLimit = comp.gridSizeLimit,
-                            maxH = _comp$gridSizeLimit.maxH,
-                            maxW = _comp$gridSizeLimit.maxW,
-                            minH = _comp$gridSizeLimit.minH,
-                            minW = _comp$gridSizeLimit.minW;
-
-                        Object.keys(comp.gridSizeLimit).forEach(function (key) {
-                            var value = comp.gridSizeLimit[key];
-                            comp.gridSizeLimit[key] = typeof value === "string" ? parseInt(value) : MAX_NUMBER;
-                        });
-                    } else {
-                        comp.gridSizeLimit = DEFAULT_GRID_SIME_LIMIT;
-                    }
-                });
-            });
-            resolve(res);
-        });
+        return resolve(interfaces.getComponentList.mock);
     });
+    // }
+    // return new Promise(resolve => {
+    //     request(
+    //         `${
+    //             interfaces.getComponentList.path
+    //         }pageId=${pageId}&pageCode=${pageCode}`,
+    //         {
+    //             method: "GET"
+    //         }
+    //     ).then(res => {
+    //         //数据处理
+    //         //要是是数字类型的，后端数据存储满足不了，暂时先在这里做兼容
+    //         res.OperationObject.map(item => {
+    //             item.components.map(comp => {
+    //                 if (comp.gridInitSize) {
+    //                     let { w, h } = comp.gridInitSize;
+    //                     comp.gridInitSize.w = parseInt(w);
+    //                     comp.gridInitSize.h = parseInt(h);
+    //                 }
+    //                 if (comp.gridSizeLimit) {
+    //                     let { maxH, maxW, minH, minW } = comp.gridSizeLimit;
+    //                     Object.keys(comp.gridSizeLimit).forEach(key => {
+    //                         let value = comp.gridSizeLimit[key];
+    //                         comp.gridSizeLimit[key] =
+    //                             typeof value === "string"
+    //                                 ? parseInt(value)
+    //                                 : MAX_NUMBER;
+    //                     });
+    //                 } else {
+    //                     comp.gridSizeLimit = DEFAULT_GRID_SIME_LIMIT;
+    //                 }
+    //             });
+    //         });
+    //         resolve(res);
+    //     });
+    // });
 };
 export var savePage = function savePage(_ref) {
     // if (mock) {
