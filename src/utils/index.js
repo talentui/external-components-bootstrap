@@ -6,7 +6,7 @@ import React from "react";
 import EmptyComponent from "../components/emptyComponent/index.js";
 import CommonIframe from "../components/common-iframe";
 import { uid } from "../interface";
-import components from '&/index';
+import component from '&/index';
 export function getQueryString(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -67,7 +67,7 @@ export var getComponentClass = function getComponentClass(data) {
     //     return eLementCollections[appId][cType];
     // }
 
-    return components[cType] || EmptyComponent;
+    return component || EmptyComponent;
 };
 //保存之前序列化editableData
 export var stringifyEditableData = function stringifyEditableData(data) {
