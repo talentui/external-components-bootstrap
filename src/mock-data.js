@@ -13,7 +13,7 @@ export var componentList = Object.assign({}, emptyResp, {
         title: "本地组件",
         id: "1231231",
         appId: process.env.appId,
-        component: [{
+        components: [{
             name: component.name,
             title: component.displayTitle || component.name,
             id: 123
