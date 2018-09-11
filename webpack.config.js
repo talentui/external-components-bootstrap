@@ -9,5 +9,12 @@ module.exports = require("@talentui/webpack-config")({
     alias: {
         "&": path.resolve(appRoot, "src"),
         _: "@talentui/external-components-bootstrap"
+    },
+    applyRules: (rules) => {
+        let rule =  {
+            test: /\.less$/,
+            use: ['css-loader', 'less-loader']
+        };
+        return rules.concat(rule)
     }
 });
