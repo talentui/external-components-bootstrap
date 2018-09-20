@@ -4,7 +4,7 @@
 import request from "./utils/request";
 import interfaces from "./interface.js";
 import { isvId } from "./interface";
-import { getQueryString, parseEditableData, stringifyEditableData } from "./utils/index";
+import { getQueryString, parseEditableData, stringifyEditableData, getCurPlatForm } from "./utils/index";
 import { DEFAULT_GRID_SIME_LIMIT, MAX_NUMBER } from "./constants";
 var mock = false;
 
@@ -119,7 +119,7 @@ export var getPage = function getPage() {
     if (pageCode && toUserId) {
         url = interfaces.getPage.path + "pageId=" + pageId + "&pageCode=" + pageCode;
     }
-    return request(url, {
+    return request(url + "&platform=" + getCurPlatForm(), {
         method: "GET"
     }).then(function (data) {
         //后端数据兼容

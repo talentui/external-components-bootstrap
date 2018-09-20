@@ -118,3 +118,8 @@ export var parseEditableData = function parseEditableData(data) {
     });
     return data;
 };
+//return the current platform value : 0 / 1
+export var getCurPlatForm = function getCurPlatForm() {
+    var platform = getQueryString("platform");
+    return platform || PLATFORM.pc; //the default value is pc
+};
