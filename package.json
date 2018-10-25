@@ -37,7 +37,7 @@
         "@beisen/user-selector": "^0.2.16",
         "@talentui/bootstrap-react": "^1.0.1",
         "@talentui/dll-react": "15.6.9",
-        "@talentui/page-templates": "^1.1.36",
+        "@talentui/page-templates": "^1.1.67",
         "@talentui/webpack-library-config": "^1.0.9",
         "babel-polyfill": "^6.26.0",
         "es6-promise": "^4.2.4",
